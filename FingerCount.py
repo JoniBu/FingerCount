@@ -3,21 +3,6 @@ import numpy as np
 import math
 
 
-#BASE IDEA
-# Simple calculator with input parsed from hand gestures
-# Small interval to combine numbers (wait until combine sign)
-
-#SUPPORT FOR FOLLOWING GESTURES
-# 0-5 numbers (0 as "ok"-sign or similar)
-# fist for COMBINE gesture, e.g. 3+5 = 8 - parsed with some small interval 3s, or something
-# something as + and - gestures
-# something as / and * gestures
-# NEXT gesture, e.g. 3 -> "next" -> 6 = 36
-# something as CALCULATE gesture
-# RESET and #REWIND gestures
-
-
-
 cam = cv.VideoCapture(0)
 
 kernel = np.ones((5,5),np.uint8)
