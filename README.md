@@ -4,9 +4,11 @@ Simple calculator built with OpenCV and Python3 that uses one hand gestures as i
 
 Ran from `FingerCount.py`.
 
-#BASE IDEA
-# Simple calculator with input parsed from hand gestures
-# Small interval to combine numbers (wait until combine sign)
+
+## Base idea
+* Simple calculator with input parsed from hand gestures.
+* Small interval to combine numbers (wait until `COMBINE` sign).
+
 
 ## TODO
 ### Following gestures:
@@ -17,7 +19,3 @@ Ran from `FingerCount.py`.
 * `NEXT` gesture, e.g. 3 -> "next" -> 6 = 36
 * something as `CALCULATE` gesture
 * `RESET` and `REWIND` gestures
-
-## BASE IDEA
-* Simple calculator with input parsed from hand gestures.
-* Small interval to combine numbers (wait until `COMBINE` sign).
