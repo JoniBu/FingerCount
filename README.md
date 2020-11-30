@@ -1,13 +1,21 @@
 # Finger Count
 
-Simple calculator built with OpenCV and Python3 that uses one hand gestures as input for the calculations. 
+Simple calculator built with OpenCV and Python3 that uses one hand gestures as input for the calculations.
 
-Ran from `FingerCount.py`.
+Ran from `FingerCount.py`. Stopped by pressing "q".
 
 
 ## Base idea
 * Simple calculator with input parsed from hand gestures.
 * Small interval to combine numbers (wait until `COMBINE` sign).
+
+
+## Prerequisites
+* Python3
+* OpenCV
+* Webcam with;
+  * static background,
+  * automatic focusing turned off.
 
 
 ## TODO

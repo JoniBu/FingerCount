@@ -60,8 +60,8 @@ while(cam.isOpened):
                 cv.putText(roi, str(cnt), (5, 25), cv.FONT_HERSHEY_SIMPLEX, 1, (0,255,255))
 
         #TODO 
-        #cover fist/palm detection with palm https://github.com/Sadaival/Hand-Gestures/blob/master/gesture.py
-        #Add template hand position
+        #add indicators (and possibly warning) for default hand position
+        #add more detectable hand gestures (palm, fist) based on contour/hull area
         #move hand detection stuff to functions
 
  
