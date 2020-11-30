@@ -1,4 +1,5 @@
 from cv2 import cv2 as cv
+from detectGesture import detectGesture
 import numpy as np
 import math
 
@@ -29,8 +30,6 @@ while(cam.isOpened):
 
     contours = cv.findContours(bDiff, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)[0]
     if contours != []:
-        #contour with highest area
-        #handContour = max(contours, key = lambda x: cv.contourArea(x))
         hull_list = []
         for i in range(len(contours)):
             hull = cv.convexHull(contours[i])
@@ -39,26 +38,10 @@ while(cam.isOpened):
         cv.drawContours(roi, hull_list, -1, (48,250,17), 2)
         
         res = contours[0]
-        hull = cv.convexHull(contours[0], returnPoints=False)
-        if len(hull) > 3: #source https://github.com/lzane/Fingers-Detection-using-OpenCV-and-Python
-            defects = cv.convexityDefects(res, hull)
-            if type(defects) != type(None):  # avoid crashing.   (BUG not found)
-
-                cnt = 1
-                for i in range(defects.shape[0]):  # calculate the angle
-                    s, e, f, d = defects[i][0]
-                    start = tuple(res[s][0])
-                    end = tuple(res[e][0])
-                    far = tuple(res[f][0])
-                    a = math.sqrt((end[0] - start[0]) ** 2 + (end[1] - start[1]) ** 2)
-                    b = math.sqrt((far[0] - start[0]) ** 2 + (far[1] - start[1]) ** 2)
-                    c = math.sqrt((end[0] - far[0]) ** 2 + (end[1] - far[1]) ** 2)
-                    angle = math.acos((b ** 2 + c ** 2 - a ** 2) / (2 * b * c))  # cosine theorem
-                    if angle <= math.pi / 2:  # angle less than 90 degree, treat as fingers
-                        cnt += 1
-                        cv.circle(roi, far, 8, [211, 84, 0], -1)
-                cv.putText(roi, str(cnt), (5, 25), cv.FONT_HERSHEY_SIMPLEX, 1, (0,255,255))
-
+        hull = cv.convexHull(res, returnPoints=False)
+        gesture = detectGesture(contours, res, hull)
+        cv.putText(roi, gesture, (5, 25), cv.FONT_HERSHEY_SIMPLEX, 1, (0,255,255))
+    
         #TODO 
         #add indicators (and possibly warning) for default hand position
         #add more detectable hand gestures (palm, fist) based on contour/hull area
