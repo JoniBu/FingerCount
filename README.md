@@ -19,6 +19,11 @@ Ran from `FingerCount.py`. Stopped by pressing "q".
 
 
 ## TODO
+### Overall
+* More precise gesture detection/more gestures
+* Default hand position, add indicators
+* Change/return integers as gestures (for calculation/sequence)
+
 ### Following gestures:
 * `0-5 numbers` (0 as "ok"-sign or similar)
 * fist for `COMBINE` gesture, e.g. 3+5 = 8 - parsed with some small interval 3s, or something

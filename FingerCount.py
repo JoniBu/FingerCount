@@ -15,6 +15,10 @@ fGray = cv.cvtColor(fRoi, cv.COLOR_BGR2GRAY)
 fGray = cv.GaussianBlur(fGray, blur, 0)
 
 
+delay = 0
+history = []
+mostCommon = ""
+
 while(cam.isOpened):
     
     frame = cv.flip(cam.read()[1], 1)
@@ -22,7 +26,6 @@ while(cam.isOpened):
     gRoi = cv.cvtColor(roi, cv.COLOR_BGR2GRAY)
     gROi = cv.GaussianBlur(gRoi, blur, 0)
     cv.rectangle(frame,(75,75),(350,350),(7,205,255),0) 
-    cv.imshow("Main cam", frame)
 
     diff = cv.subtract(fGray, gRoi)
     bDiff = cv.threshold(diff, 20, 255, cv.THRESH_BINARY)[1]
@@ -41,17 +44,23 @@ while(cam.isOpened):
         hull = cv.convexHull(res, returnPoints=False)
         gesture = detectGesture(contours, res, hull)
         cv.putText(roi, gesture, (5, 25), cv.FONT_HERSHEY_SIMPLEX, 1, (0,255,255))
+
+        delay += 1
+        history.append(gesture)
+
+        if delay >= 120:
+            mostCommon = max(set(history), key = history.count)
+            history.clear()
+        cv.putText(roi, mostCommon, (5, 265), cv.FONT_HERSHEY_SIMPLEX, 1, (0,255,255))
+        #buildSequence -> implement calculations
     
-        #TODO 
-        #add indicators (and possibly warning) for default hand position
-        #add more detectable hand gestures (palm, fist) based on contour/hull area
-        #move hand detection stuff to functions
 
  
 
     cv.imshow("Focus", roi)
     cv.imshow("diffroi", diff)
     cv.imshow("bin", bDiff)
+    cv.imshow("Main cam", frame)
 
 
 

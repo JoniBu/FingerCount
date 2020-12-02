@@ -2,7 +2,6 @@ import math
 from cv2 import cv2 as cv
 
 
-#source for calculating fingers https://github.com/lzane/Fingers-Detection-using-OpenCV-and-Python
 def detectGesture(contours, res, hull):
     cnt = 0
     if len(hull) > 3:
@@ -19,13 +18,13 @@ def detectGesture(contours, res, hull):
                     angle = math.acos((b ** 2 + c ** 2 - a ** 2) / (2 * b * c))  # cosine theorem
                     if angle <= math.pi / 2:  # angle less than 90 degree, treat as fingers
                         cnt += 1
-                return(str(cnt))
-            # else: TODO add support for more gestures, detect palm and fist based on ratio of contours
-            #     #if (res != []) and (hull != []):
-            #     handContour = max(contours, key = lambda x: cv.contourArea(x))
-            #     handArea = cv.contourArea(handContour)
-            #     hullArea = cv.contourArea(hull)
-            #     print(handArea, hullArea)
+                if cnt == 0:
+                    hand = max(contours, key = lambda x: cv.contourArea(x))
+                    handArea = cv.contourArea(hand)
+                    if handArea < 9000:
+                        return("fist")
+                    if handArea < 11000:
+                        return("palm")
+                else:
+                    return(str(cnt))
 
-
-            #TODO determine and detect gestures for operations
