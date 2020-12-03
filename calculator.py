@@ -3,8 +3,6 @@
 #all inputs/results of inputs, this is so we can build rewind function
 
 def isValid(previousGesture, currentGesture):
-    if currentGesture == "palm" and isinstance(previousGesture, int):
-        return True
     if type(previousGesture) == type(currentGesture):
         return False
     return True
