@@ -26,5 +26,5 @@ def detectGesture(contours, res, hull):
                     if handArea < 11000:
                         return("palm")
                 else:
-                    return(str(cnt))
+                    return(cnt)
 

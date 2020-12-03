@@ -1,7 +1,17 @@
 #temp file
 
 #all inputs/results of inputs, this is so we can build rewind function
-#def buildSequence
+
+def isValid(previousGesture, currentGesture):
+    if currentGesture == "palm" and isinstance(previousGesture, int):
+        return True
+    if type(previousGesture) == type(currentGesture):
+        return False
+    return True
+
+def calculate(seq):
+    return seq
+        
 
 
 #to sum numbers i.e. 3 fingers > GESTURE > 5 fingers = 8

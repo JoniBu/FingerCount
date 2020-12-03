@@ -1,10 +1,12 @@
 from cv2 import cv2 as cv
 from detectGesture import detectGesture
+import calculator
 import numpy as np
 import math
 
 
 cam = cv.VideoCapture(0)
+cam.set(cv.CAP_PROP_AUTOFOCUS, 0)
 
 kernel = np.ones((5,5),np.uint8)
 blur = (3,3)
@@ -15,8 +17,9 @@ fGray = cv.cvtColor(fRoi, cv.COLOR_BGR2GRAY)
 fGray = cv.GaussianBlur(fGray, blur, 0)
 
 
-delay = 0
+delay = 30
 history = []
+gestureSeq = []
 mostCommon = ""
 
 while(cam.isOpened):
@@ -43,19 +46,26 @@ while(cam.isOpened):
         res = contours[0]
         hull = cv.convexHull(res, returnPoints=False)
         gesture = detectGesture(contours, res, hull)
-        cv.putText(roi, gesture, (5, 25), cv.FONT_HERSHEY_SIMPLEX, 1, (0,255,255))
+        if gesture != None:
+            cv.putText(roi, str(gesture), (5, 25), cv.FONT_HERSHEY_SIMPLEX, 1, (0,255,255))
+        else:
+            cv.putText(roi, "Unrecognized", (5, 25), cv.FONT_HERSHEY_SIMPLEX, 1, (28,28,212))
 
-        delay += 1
-        history.append(gesture)
 
-        if delay >= 120:
+        if gesture != None:
+            history.append(gesture)
+
+        if len(history) >= delay:
             mostCommon = max(set(history), key = history.count)
             history.clear()
-        cv.putText(roi, mostCommon, (5, 265), cv.FONT_HERSHEY_SIMPLEX, 1, (0,255,255))
-        #buildSequence -> implement calculations
-    
+            if gestureSeq and not calculator.isValid(gestureSeq[-1], mostCommon):
+                cv.putText(roi, "Invalid sequence", (5, 265), cv.FONT_HERSHEY_SIMPLEX, 1, (28,28,212)) #fix flicker
+            else:
+                gestureSeq.append(mostCommon)
+            if mostCommon == "palm":
+                print(calculator.calculate(gestureSeq)) #debugging
+        cv.putText(roi, str(mostCommon), (5, 265), cv.FONT_HERSHEY_SIMPLEX, 1, (0,255,255)) #debugging purposes
 
- 
 
     cv.imshow("Focus", roi)
     cv.imshow("diffroi", diff)
