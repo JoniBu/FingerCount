@@ -21,10 +21,14 @@ def detectGesture(contours, res, hull):
                 if cnt == 0:
                     hand = max(contours, key = lambda x: cv.contourArea(x))
                     handArea = cv.contourArea(hand)
-                    if handArea < 9000:
-                        return("fist")
-                    if handArea < 11000:
-                        return("palm")
+                    handHull = cv.convexHull(hand)
+                    hhArea = cv.contourArea(handHull)
+                    ratio = handArea / hhArea
+                    if ratio > 0.9: #extra verification
+                        if  17500 >hhArea:
+                            return("fist")
+                        if  hhArea > 17500:
+                            return("palm")
                 else:
-                    return(cnt)
+                    return(cnt+1)
 

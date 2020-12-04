@@ -58,12 +58,17 @@ while(cam.isOpened):
         if len(history) >= delay:
             mostCommon = max(set(history), key = history.count)
             history.clear()
-            if gestureSeq and not calculator.isValid(gestureSeq[-1], mostCommon):
-                cv.putText(roi, "Invalid sequence", (5, 265), cv.FONT_HERSHEY_SIMPLEX, 1, (28,28,212)) #fix flicker
-            else:
+            if len(gestureSeq) >= 2 and (calculator.isValid(gestureSeq[-2], gestureSeq[-1], mostCommon)):
                 gestureSeq.append(mostCommon)
-            if mostCommon == "palm":
-                print(calculator.calculate(gestureSeq)) #debugging
+            elif not gestureSeq and isinstance(mostCommon, int):
+                gestureSeq.append(mostCommon)
+            elif len(gestureSeq) == 1 and isinstance(gestureSeq[0], int) and isinstance(mostCommon, str):
+                gestureSeq.append(mostCommon)
+            else:
+                cv.putText(roi, "Invalid sequence", (5, 265), cv.FONT_HERSHEY_SIMPLEX, 1, (28,28,212))
+            if mostCommon == "palm" and gestureSeq[-1] != "fist": #TODO move above/skip passing "palm" to calculator
+                calculator.calculate(gestureSeq)
+                print(gestureSeq)
         cv.putText(roi, str(mostCommon), (5, 265), cv.FONT_HERSHEY_SIMPLEX, 1, (0,255,255)) #debugging purposes
 
 

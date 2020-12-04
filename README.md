@@ -20,9 +20,8 @@ Ran from `FingerCount.py`. Stopped by pressing "q".
 
 ## TODO
 ### Overall
-* More precise gesture detection (and more gestures)
+* More gestures
 * Default hand position, add indicators
-* Validation for correct gesture order.
 
 ### Gestures:
 * `0-5 numbers` (0 as "ok"-sign or similar)
