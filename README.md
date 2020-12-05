@@ -15,13 +15,14 @@ Ran from `FingerCount.py`. Stopped by pressing "q".
 * OpenCV
 * Webcam with;
   * static background,
-  * automatic focusing turned off.
+  * automatic focusing turned off (this is done from code as well).
 
 
 ## TODO
 ### Overall
 * More gestures
 * Default hand position, add indicators
+  * Improvement idea: hand position definition without required position
 
 ### Gestures:
 * `0-5 numbers` (0 as "ok"-sign or similar)

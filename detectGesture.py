@@ -19,16 +19,36 @@ def detectGesture(contours, res, hull):
                     if angle <= math.pi / 2:  # angle less than 90 degree, treat as fingers
                         cnt += 1
                 if cnt == 0:
-                    hand = max(contours, key = lambda x: cv.contourArea(x))
-                    handArea = cv.contourArea(hand)
-                    handHull = cv.convexHull(hand)
-                    hhArea = cv.contourArea(handHull)
-                    ratio = handArea / hhArea
+                    hhArea, ratio = calculateAreas(contours)
                     if ratio > 0.9: #extra verification
-                        if  17500 >hhArea:
+                        if  hhArea < 17500:
                             return("fist")
                         if  hhArea > 17500:
                             return("palm")
+                    if ratio < 0.8 and hhArea > 22000:
+                        return("call")
+                    else:
+                        return(cnt+1)
+                elif cnt == 1:
+                    hhArea, ratio = calculateAreas(contours)
+                    if ratio > 0.65 and hhArea > 23000:
+                        return("vulcan")
+                    return(cnt+1)
+                elif cnt == 2:
+                    hhArea, ratio = calculateAreas(contours)
+                    if ratio < 0.7 and hhArea > 29000:
+                        return("rock")
+                    return(cnt+1)
                 else:
                     return(cnt+1)
+
+def calculateAreas(contours):
+    hand = max(contours, key = lambda x: cv.contourArea(x))
+    handArea = cv.contourArea(hand)
+    handHull = cv.convexHull(hand)
+    hhArea = cv.contourArea(handHull)
+    ratio = handArea / hhArea
+    return hhArea, ratio
+    #return handArea, hhArea, ratio - hand area not used currently, so decided not to return it
+    
 

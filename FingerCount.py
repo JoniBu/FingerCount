@@ -1,11 +1,13 @@
 from cv2 import cv2 as cv
 from detectGesture import detectGesture
 import calculator
+import util
 import numpy as np
 import math
 
 
 cam = cv.VideoCapture(0)
+#cam = cv.VideoCapture(path) sample video
 cam.set(cv.CAP_PROP_AUTOFOCUS, 0)
 
 kernel = np.ones((5,5),np.uint8)
@@ -28,7 +30,8 @@ while(cam.isOpened):
     roi = frame[75:350, 75:350]
     gRoi = cv.cvtColor(roi, cv.COLOR_BGR2GRAY)
     gROi = cv.GaussianBlur(gRoi, blur, 0)
-    cv.rectangle(frame,(75,75),(350,350),(7,205,255),0) 
+    cv.rectangle(frame,(74,74),(350,350),(7,205,255),0)
+    cv.rectangle(roi, (0,75), (130,220),(7,205,255),0) 
 
     diff = cv.subtract(fGray, gRoi)
     bDiff = cv.threshold(diff, 20, 255, cv.THRESH_BINARY)[1]
@@ -54,22 +57,23 @@ while(cam.isOpened):
 
         if gesture != None:
             history.append(gesture)
-
-        if len(history) >= delay:
-            mostCommon = max(set(history), key = history.count)
-            history.clear()
-            if len(gestureSeq) >= 2 and (calculator.isValid(gestureSeq[-2], gestureSeq[-1], mostCommon)):
-                gestureSeq.append(mostCommon)
-            elif not gestureSeq and isinstance(mostCommon, int):
-                gestureSeq.append(mostCommon)
-            elif len(gestureSeq) == 1 and isinstance(gestureSeq[0], int) and isinstance(mostCommon, str):
-                gestureSeq.append(mostCommon)
-            else:
-                cv.putText(roi, "Invalid sequence", (5, 265), cv.FONT_HERSHEY_SIMPLEX, 1, (28,28,212))
-            if mostCommon == "palm" and gestureSeq[-1] != "fist": #TODO move above/skip passing "palm" to calculator
-                calculator.calculate(gestureSeq)
-                print(gestureSeq)
-        cv.putText(roi, str(mostCommon), (5, 265), cv.FONT_HERSHEY_SIMPLEX, 1, (0,255,255)) #debugging purposes
+            if len(history) >= delay:
+                mostCommon = max(set(history), key = history.count)
+                history.clear()
+                if len(gestureSeq) >= 2 and (util.isValid(gestureSeq[-2], gestureSeq[-1], mostCommon)):
+                    gestureSeq.append(mostCommon)
+                elif not gestureSeq and isinstance(mostCommon, int):
+                    gestureSeq.append(mostCommon)
+                elif len(gestureSeq) == 1 and isinstance(gestureSeq[0], int) and isinstance(mostCommon, str):
+                    gestureSeq.append(mostCommon)
+                else:
+                    cv.putText(roi, "Invalid sequence", (5, 265), cv.FONT_HERSHEY_SIMPLEX, 1, (28,28,212))
+                #TODO move above/skip passing "palm" to calculator
+                #TODO validation for previous 
+                if mostCommon == "rock": #TODO move above/skip passing "palm" to calculator
+                    calculator.createSeq(gestureSeq)
+                    print(gestureSeq)
+            cv.putText(roi, str(mostCommon), (5, 265), cv.FONT_HERSHEY_SIMPLEX, 1, (0,255,255)) #debugging purposes
 
 
     cv.imshow("Focus", roi)
