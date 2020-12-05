@@ -8,29 +8,37 @@ def fingerSum(first, last):
 def fingerAppend(first, last):
     return int(str(first) + str(last))
 
-
-#def plusCalculation(firstNumber, secondNumber)
-#def minusCalculation(firstNumber, secondNumber)
-#...
-
 def createSeq(seq):
-    if (len(seq) % 3) != 1:
-        return "Incorrect sequence length."
-    sum = []
-    for grp in util.chunker(seq, 3):
-        if len(grp) == 3:
-            if grp[1] == "fist":
-                sum.append(fingerSum(grp[0], grp[2]))
-            elif grp[1] == "palm":
-                sum.append(fingerAppend(grp[0], grp[2]))
-            elif grp[1] == "call":
-                sum.append("+")
-            elif grp[1] == "vulcan":
-                sum.append("-")
-        if grp[0] == "rock":
-            calculateTotal(sum)
+    i = 0
+    prosSeq = []
+    length = len(seq)-1
+    for i in range(length):
+        if seq[i] == "fist":
+            prosSeq.append(fingerSum(seq[i-1], seq[i+1]))
+        elif seq[i] == "palm":
+            prosSeq.append(fingerAppend(seq[i-1], seq[i+1]))
+        elif seq[i] == "call":
+            prosSeq.append("+")
+            if seq[i] == length:
+                prosSeq.append(seq[i-1])
+        elif seq[i] == "vulcan":
+            prosSeq.append("-")
+            if seq[i] == length:
+                prosSeq.append(seq[i-1])
+    if isinstance(prosSeq[-1], str): #dirty check if the last item is not number
+        prosSeq.pop()
+    return prosSeq
 
-#calculate final result of everything inputted
-def calculateTotal(sequence):
 
-    return ""
+
+#calculate final result from built sequence
+def calculateTotal(prosSeq):
+    i = 0
+    total = prosSeq[0] #initialize with first value
+    for i in range(len(prosSeq)-1):
+        if prosSeq[i] == "-":
+            total -= prosSeq[i+1]
+        if prosSeq[i] == "+":
+            total += prosSeq[i+1]
+    return total
+

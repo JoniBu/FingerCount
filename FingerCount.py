@@ -19,7 +19,7 @@ fGray = cv.cvtColor(fRoi, cv.COLOR_BGR2GRAY)
 fGray = cv.GaussianBlur(fGray, blur, 0)
 
 
-delay = 30
+delay = 120
 history = []
 gestureSeq = []
 mostCommon = ""
@@ -70,9 +70,13 @@ while(cam.isOpened):
                     cv.putText(roi, "Invalid sequence", (5, 265), cv.FONT_HERSHEY_SIMPLEX, 1, (28,28,212))
                 #TODO move above/skip passing "palm" to calculator
                 #TODO validation for previous 
-                if mostCommon == "rock": #TODO move above/skip passing "palm" to calculator
-                    calculator.createSeq(gestureSeq)
-                    print(gestureSeq)
+                if gestureSeq and mostCommon == "rock": #TODO move above/skip passing "palm" to calculator
+                    prosSeq = calculator.createSeq(gestureSeq)
+                    print(prosSeq)
+                    total = calculator.calculateTotal(prosSeq)
+                    # TODO fix these
+                    # cv.putText(roi, ("Calculation sequence ", str(prosSeq)), (5, 265), cv.FONT_HERSHEY_SIMPLEX, 1, (255,0,0))
+                    # cv.putText(roi, ("Total sum: " , str(total)), (5, 265), cv.FONT_HERSHEY_SIMPLEX, 1, (255,0,0))
             cv.putText(roi, str(mostCommon), (5, 265), cv.FONT_HERSHEY_SIMPLEX, 1, (0,255,255)) #debugging purposes
 
 
@@ -81,13 +85,8 @@ while(cam.isOpened):
     cv.imshow("bin", bDiff)
     cv.imshow("Main cam", frame)
 
-
-
-
-
     if cv.waitKey(1) & 0xFF == ord("q"):
         break
-
-
+    
 cam.release()
 cv.destroyAllWindows()

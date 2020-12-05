@@ -20,12 +20,13 @@ Ran from `FingerCount.py`. Stopped by pressing "q".
 
 ## TODO
 ### Overall
+* Validation fixes
 * More gestures
-* Default hand position, add indicators
-  * Improvement idea: hand position definition without required position
+  * Update gesture list
+* Overall code cleanup..
 
 ### Gestures:
-* `0-5 numbers` (0 as "ok"-sign or similar)
+* `1-5` count of fingers
 * fist for `COMBINE` gesture, e.g. 3+5 = 8 - parsed with some small interval 3s, or something
 * something as `+` & `-` gestures
 * something as `/` & `*` gestures

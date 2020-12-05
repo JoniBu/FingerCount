@@ -41,6 +41,7 @@ def detectGesture(contours, res, hull):
                     return(cnt+1)
                 else:
                     return(cnt+1)
+                #TODO 0 missing atm!
 
 def calculateAreas(contours):
     hand = max(contours, key = lambda x: cv.contourArea(x))
