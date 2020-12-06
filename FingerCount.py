@@ -2,7 +2,7 @@ from cv2 import cv2 as cv
 from detectGesture import detectGesture
 from gestures import *
 import calculator
-import util
+import validator
 import numpy as np
 import math
 
@@ -77,13 +77,13 @@ while(cam.isOpened):
                         chain.append(mostCommon)
                     elif len(chain) == 2 and isinstance(chain[0], int) and isinstance(chain[1], str) and chain[1] != Calc and isinstance(mostCommon, int):
                         chain.append(mostCommon)
-                        prev, valid = util.isValid(prev, chain)
+                        prev, valid = validator.isValid(prev, chain)
                         gestureSeq.extend(chain)
                         chain = []
                     else:
                         cv.putText(roi, "Invalid sequence", (5, 265), font, 1, (28,28,212)) 
                 elif prev == "Number":
-                    prev, valid = util.isValid(prev, mostCommon)
+                    prev, valid = validator.isValid(prev, mostCommon)
                     if valid:
                             gestureSeq.append(mostCommon)
                             chain = []
@@ -91,10 +91,10 @@ while(cam.isOpened):
                     cv.putText(roi, "Invalid sequence", (5, 265), font, 1, (28,28,212))
             cv.putText(roi, str(mostCommon), (5, 265), font, 1, (0,255,255)) #debugging purposes/shows whats getting added basically
     if calculated:
-        cv.putText(roi, "Calculation:", (100 ,190), font, 0.4, (0,255,255))
-        cv.putText(roi, str(prosSeq), (100 ,210), font, 0.4, (0,255,255))
-        cv.putText(roi, "Result:", (100 ,238), font, 0.4, (25,0,255))
-        cv.putText(roi, str(total), (100 ,265), font, 1, (25,0,255))
+        cv.putText(roi, "Calculation:", (135 ,190), font, 0.4, (0,255,255))
+        cv.putText(roi, str(prosSeq), (135 ,210), font, 0.4, (0,255,255))
+        cv.putText(roi, "Result:", (135 ,238), font, 0.4, (25,0,255))
+        cv.putText(roi, str(total), (135 ,265), font, 1, (25,0,255))
 
 
     cv.imshow("Focus", roi)
