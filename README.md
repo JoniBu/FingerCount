@@ -21,13 +21,13 @@ Ran from `FingerCount.py`. Stopped by pressing "q".
 ## Gestures
 
 | Gesture        | Result        | Example  | Image  |
-| :------------- |:-------------:| :-----:| :-----:| :-----:|
-| 1-5 fingers up | sum of fingers | Pretty self explanatory | ![alt text](Samples/fingers.jpg "Fingers")
-| Fist     | 1st finger sum + 2nd finger sum     |  3 fingers > **FIST** > 5 fingers = 8 | ![alt text](Samples/fist.jpg "Fist") |
-| Palm | 1st fingers, 2nd fingers      |    3 fingers > **PALM** > 5 fingers = 35 | ![alt text](Samples/palm.jpg "Palm") |
-| "Call me" hand sign |  plus operation     |   first number + second number | ![alt text](Samples/call_me.jpg "Call me") |
-| "Vulcan salute" (without thumb) |  minus operation     |   first number - second number | ![alt text](Samples/vulcan_salute.jpg "Vulcan salute") |
-| "Rock on!" hand sign |  calculate     |   trigger calculation of built sequence | ![alt text](Samples/rock_on.jpg "Rock on!") |
+| :------------- |:-------------:| :-----:| :-----:|
+| 1-5 fingers up | sum of fingers | Pretty self explanatory | ![](Samples/fingers.jpg "Fingers")
+| Fist     | 1st finger sum + 2nd finger sum     |  3 fingers > **FIST** > 5 fingers = 8 | ![](Samples/fist.jpg "Fist") |
+| Palm | 1st fingers, 2nd fingers      |    3 fingers > **PALM** > 5 fingers = 35 | ![](Samples/palm.jpg "Palm") |
+| "Call me" hand sign |  plus operation     |   first number + second number | ![](Samples/call_me.jpg "Call me") |
+| "Vulcan salute" (without thumb) |  minus operation     |   first number - second number | ![](Samples/vulcan_salute.jpg "Vulcan salute") |
+| "Rock on!" hand sign |  calculate     |   trigger calculation of built sequence | ![](Samples/rock_on.jpg "Rock on!") |
 
 
 ## TODO
