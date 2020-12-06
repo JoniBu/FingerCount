@@ -1,5 +1,6 @@
 from cv2 import cv2 as cv
 from detectGesture import detectGesture
+from gestures import *
 import calculator
 import util
 import numpy as np
@@ -19,10 +20,13 @@ fGray = cv.cvtColor(fRoi, cv.COLOR_BGR2GRAY)
 fGray = cv.GaussianBlur(fGray, blur, 0)
 
 
-delay = 120
+delay = 80
 history = []
 gestureSeq = []
 mostCommon = ""
+prev = "Operation"
+chain = []
+
 
 while(cam.isOpened):
     
@@ -53,30 +57,41 @@ while(cam.isOpened):
             cv.putText(roi, str(gesture), (5, 25), cv.FONT_HERSHEY_SIMPLEX, 1, (0,255,255))
         else:
             cv.putText(roi, "Unrecognized", (5, 25), cv.FONT_HERSHEY_SIMPLEX, 1, (28,28,212))
-
-
         if gesture != None:
             history.append(gesture)
             if len(history) >= delay:
                 mostCommon = max(set(history), key = history.count)
                 history.clear()
-                if len(gestureSeq) >= 2 and (util.isValid(gestureSeq[-2], gestureSeq[-1], mostCommon)):
-                    gestureSeq.append(mostCommon)
-                elif not gestureSeq and isinstance(mostCommon, int):
-                    gestureSeq.append(mostCommon)
-                elif len(gestureSeq) == 1 and isinstance(gestureSeq[0], int) and isinstance(mostCommon, str):
-                    gestureSeq.append(mostCommon)
-                else:
-                    cv.putText(roi, "Invalid sequence", (5, 265), cv.FONT_HERSHEY_SIMPLEX, 1, (28,28,212))
-                #TODO move above/skip passing "palm" to calculator
-                #TODO validation for previous 
-                if gestureSeq and mostCommon == "rock": #TODO move above/skip passing "palm" to calculator
+                print(chain)
+                if len(gestureSeq) >= 2 and mostCommon == "rock": #TODO move above/skip passing "rock" to calculator
                     prosSeq = calculator.createSeq(gestureSeq)
+                    print(gestureSeq)
                     print(prosSeq)
-                    total = calculator.calculateTotal(prosSeq)
-                    # TODO fix these
-                    # cv.putText(roi, ("Calculation sequence ", str(prosSeq)), (5, 265), cv.FONT_HERSHEY_SIMPLEX, 1, (255,0,0))
-                    # cv.putText(roi, ("Total sum: " , str(total)), (5, 265), cv.FONT_HERSHEY_SIMPLEX, 1, (255,0,0))
+                    if prosSeq:
+                        total = calculator.calculateTotal(prosSeq)
+                        print(total)
+                        cv.putText(roi, str(total), (5, 265), cv.FONT_HERSHEY_SIMPLEX, 1, (255,0,0))
+                    cv.putText(roi, str(prosSeq), (5, 265), cv.FONT_HERSHEY_SIMPLEX, 1, (255,0,0))
+                if prev == "Operation":
+                    print("prev operation")
+                    if not chain and isinstance(mostCommon, int):
+                        chain.append(mostCommon)
+                    elif len(chain) == 1 and isinstance(chain[0], int) and isinstance(mostCommon, str) and mostCommon != Calc:
+                        chain.append(mostCommon)
+                    elif len(chain) == 2 and isinstance(chain[0], int) and isinstance(chain[1], str) and chain[1] != Calc and isinstance(mostCommon, int):
+                        chain.append(mostCommon)
+                        prev, valid = util.isValid(prev, chain)
+                        gestureSeq.extend(chain)
+                        chain = []
+                    else:
+                        cv.putText(roi, "Invalid sequence", (5, 265), cv.FONT_HERSHEY_SIMPLEX, 1, (28,28,212)) 
+                elif prev == "Number":
+                    prev, valid = util.isValid(prev, mostCommon)
+                    if valid:
+                            gestureSeq.append(mostCommon)
+                            chain = []
+                else:
+                    cv.putText(roi, "Invalid sequence", (5, 265), cv.FONT_HERSHEY_SIMPLEX, 1, (28,28,212)) 
             cv.putText(roi, str(mostCommon), (5, 265), cv.FONT_HERSHEY_SIMPLEX, 1, (0,255,255)) #debugging purposes
 
 

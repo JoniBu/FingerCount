@@ -20,10 +20,12 @@ Ran from `FingerCount.py`. Stopped by pressing "q".
 
 ## TODO
 ### Overall
-* Validation fixes
+* Add gesture/way to add just 1
 * More gestures
   * Update gesture list
 * Overall code cleanup..
+* Folders
+* Sample video(s)
 
 ### Gestures:
 * `1-5` count of fingers
