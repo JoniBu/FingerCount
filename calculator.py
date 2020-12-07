@@ -1,3 +1,6 @@
+from gestures import *
+
+
 #to sum numbers i.e. 3 fingers > GESTURE > 5 fingers = 8
 def fingerSum(first, last):
     return first+last
@@ -5,8 +8,6 @@ def fingerSum(first, last):
 #to combine numbers i.e. 3 fingers > GESTURE > 5 fingers = 35
 def fingerAppend(first, last):
     return int(str(first) + str(last))
-
-from gestures import *
 
 def createSeq(seq):
     i = 0
@@ -34,8 +35,6 @@ def createSeq(seq):
                 if isinstance(seq[i+1], int):
                     prosSeq.append(seq[i+1])
     return prosSeq
-
-
 
 #calculate final result from built sequence
 def calculateTotal(prosSeq):

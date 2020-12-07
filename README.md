@@ -16,6 +16,8 @@ Ran from `FingerCount.py`. Stopped by pressing "q".
 * OpenCV
 * Webcam with;
   * static background,
+  * enough light in the room,
+  * shadows not casting roi (Region of Interest) while detecting hand gestures,
   * automatic focusing turned off (this is done from code as well).
 
 ## Gestures
